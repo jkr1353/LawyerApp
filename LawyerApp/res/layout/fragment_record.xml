@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+    
+	    <TextView
+	        android:id="@+id/Title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/record_title_str"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	    
+	</LinearLayout> 
+   
+	    
+	<LinearLayout
+        android:id="@+id/editLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone" >
+        
+	    <EditText
+	        android:id="@+id/editTitle"
+	        android:gravity="center_horizontal"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:ems="10" />
+	    
+	</LinearLayout>   
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+	    
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+            android:layout_weight=".33">
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/contactImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/contacts"
+                android:gravity="top" />
+
+            <Button
+                android:id="@+id/recentContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recentContacts"
+                android:gravity="center"
+                android:background="#AFDCEC"/>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight=".33" >
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/docsImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/docs"
+                android:gravity="top" />
+
+            <Button
+                android:id="@+id/recentDocs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recentDocs" 
+                android:background="#157DEC"
+                android:gravity="center"/>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight=".33" >
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/timeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/timelog"
+                android:gravity="top" />
+
+            <Button
+                android:id="@+id/recentTimeLogs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recentTimeLogs"
+                android:gravity="center"
+                android:background="#157DEC" />
+            
+        </LinearLayout>
+
+    </LinearLayout>
+	    
+	    <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical">
+        
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Client 1"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Client 2"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Judge 1"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+	   </LinearLayout>     
+</LinearLayout>
