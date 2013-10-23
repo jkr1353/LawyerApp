@@ -1,7 +1,12 @@
 package com.example.lawyerapp;
 
+import java.util.ArrayList;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -9,19 +14,26 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class RecordFragment extends Fragment {
 	private Record mRecord; 
 	private EditText mEditTitle;
-	private ImageView mDocsImage;
-	private ImageView mContactImage;
-	private ImageView mTimeImage;
+	private Button mDocsBut;
+	private Button mContactBut;
+	private Button mTimeBut;
 	private TextView mTitle;
+	private ArrayList<Record> mCat; 
+	private Fragment contactfrag; //1
+	private Fragment filefrag;    //2
+	private Fragment logfrag;     //3
+	private int FragSelect=0;
+	
+	
+	
 	
 	@Override
 	public void onCreate(Bundle saved) {
@@ -29,10 +41,10 @@ public class RecordFragment extends Fragment {
 		super.onCreate(saved);
 		Bundle bundle=getArguments();
 		
-		
-		mRecord = (Record)bundle.getSerializable("record");
-		
+		mCat = Catalog.get(getActivity()).getRecords();
+		mRecord= (Record)mCat.get(bundle.getInt("recordnum"));		
 	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle saved) {
@@ -99,31 +111,122 @@ public class RecordFragment extends Fragment {
 
 			});
 		
+		mDocsBut=(Button) v.findViewById(R.id.recentDocs);
+		mContactBut=(Button) v.findViewById(R.id.recentContacts);
+		mTimeBut=(Button) v.findViewById(R.id.recentTimeLogs);
 		
-		mDocsImage=(ImageView) v.findViewById(R.id.docsImage);
-		mContactImage=(ImageView) v.findViewById(R.id.contactImage);
-		mTimeImage=(ImageView) v.findViewById(R.id.timeImage);
-		mDocsImage.setOnClickListener(new View.OnClickListener() {
+		contactfrag = new ContactFrag();
+		filefrag = new FileFrag();
+		logfrag = new LogFrag();
+		final FragmentManager fm = getFragmentManager();
+		
+		mDocsBut.setOnClickListener(new View.OnClickListener() {
 
 			  @Override
 			  public void onClick(View view) {
-				  Toast.makeText(getActivity().getApplicationContext(),"Documents", Toast.LENGTH_SHORT).show();
+				  mDocsBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
+				  mContactBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mTimeBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  
+				  
+					if (FragSelect==0)
+					{
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, filefrag);
+						fta.commit(); 
+						FragSelect=2;
+					}
+					
+					
+					if (FragSelect != 2) {
+						if(FragSelect==1)
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(contactfrag).commit();
+						}
+						else  //3
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(logfrag).commit();
+						}
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, filefrag);
+						fta.commit(); 
+						FragSelect=2;
+					}
 			  }
 
 			});
-		mContactImage.setOnClickListener(new View.OnClickListener() {
+		mContactBut.setOnClickListener(new View.OnClickListener() {
 
 			  @Override
 			  public void onClick(View view) {
-				  Toast.makeText(getActivity().getApplicationContext(),"Contacts", Toast.LENGTH_SHORT).show();
+				  mDocsBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mContactBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
+				  mTimeBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  
+				  if (FragSelect==0)
+					{
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, contactfrag);
+						fta.commit(); 
+						FragSelect=1;
+					}
+					
+					
+					if (FragSelect != 1) {
+						if(FragSelect==2)
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(filefrag).commit();
+						}
+						else  //3
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(logfrag).commit();
+						}
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, contactfrag);
+						fta.commit(); 
+						FragSelect=1;
+					}
 			  }
 
 			});
-		mTimeImage.setOnClickListener(new View.OnClickListener() {
+		mTimeBut.setOnClickListener(new View.OnClickListener() {
 
 			  @Override
 			  public void onClick(View view) {
-			    Toast.makeText(getActivity().getApplicationContext(),"Time Logs", Toast.LENGTH_SHORT).show();
+				  mDocsBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mContactBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mTimeBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
+				  
+					
+				  if (FragSelect==0)
+					{
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, logfrag);
+						fta.commit(); 
+						FragSelect=3;
+					}
+					
+					
+					if (FragSelect != 3) {
+						if(FragSelect==1)
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(contactfrag).commit();
+						}
+						else  //2
+						{
+							FragmentTransaction fta = fm.beginTransaction();
+							fta.remove(filefrag).commit();
+						}
+						FragmentTransaction fta = fm.beginTransaction();
+						fta.add(R.id.tabfrag, logfrag);
+						fta.commit(); 
+						FragSelect=3;
+					}
 			  }
 
 			});

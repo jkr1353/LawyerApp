@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,15 +30,30 @@ public class RecordListFrag extends ListFragment {
 		
 		RecordAdapter adapter = new RecordAdapter(mCat); 
 		setListAdapter(adapter);
+		
 	}
+	
+	@Override
+	public void onResume()
+	{
+		reset();
+		super.onResume();
+	}
+	
+	public void reset()
+	{
+		((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+	}
+	
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id){
 		Record c = (Record) (getListAdapter()).getItem(pos); 
+		c.setDateNow();
 		Log.d("debug", "item " + pos + ": " + c.getmTitle() ); 
 		
 		Intent i = new Intent(getActivity(), RecordAct.class);
-		i.putExtra("record", c);
+		i.putExtra("recordnum", pos);
 		startActivity(i); 
 	}
 	

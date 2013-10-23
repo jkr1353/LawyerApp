@@ -37,6 +37,10 @@ public class Record implements Serializable {
 		this.mDate = mDate;
 	}
 	
+	public void setDateNow() {
+		this.mDate = new Date();
+	}	
+	
 	@Override
 	public String toString() {
 		return mTitle; 

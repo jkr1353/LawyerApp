@@ -3,7 +3,10 @@ package com.example.lawyerapp;
 import java.util.ArrayList;
 import java.util.UUID;
 
+
+
 import android.content.Context;
+import android.widget.BaseAdapter;
 
 public class Catalog {
 	private static Catalog sCat;
@@ -14,7 +17,7 @@ public class Catalog {
 		mAppContext = cxt; 
 		
 		mRecords = new ArrayList<Record>(); 
-		for (int i=0; i< 100; i++) {
+		for (int i=0; i< 5; i++) {
 			Record c = new Record();
 			c.setmTitle("Case #" + i);
 			mRecords.add(c); 
@@ -35,6 +38,13 @@ public class Catalog {
 		return mRecords; 
 	}
 	
+	public void CreateRecord(String name)
+	{
+		Record c = new Record();
+		c.setmTitle(name);
+		mRecords.add(c);		
+	}
+	
 	public Record getOneRec(UUID id) {
 		for (Record r: mRecords) {
 			if (r.getId().equals(id)) {
@@ -43,4 +53,6 @@ public class Catalog {
 		}
 		return null; 
 	}
+
+	
 }

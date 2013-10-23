@@ -45,74 +45,33 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 	    
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            android:layout_weight=".33">
-
-            <ImageView
-                android:adjustViewBounds="true"
-                android:id="@+id/contactImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/contacts"
-                android:gravity="top" />
+        
 
             <Button
                 android:id="@+id/recentContacts"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/recentContacts"
                 android:gravity="center"
-                android:background="#AFDCEC"/>
+                android:background="#157DEC" />
             
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight=".33" >
-
-            <ImageView
-                android:adjustViewBounds="true"
-                android:id="@+id/docsImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/docs"
-                android:gravity="top" />
+        
 
             <Button
-                android:id="@+id/recentDocs"
-                android:layout_width="match_parent"
+            	android:id="@+id/recentDocs"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/recentDocs" 
                 android:background="#157DEC"
                 android:gravity="center"/>
-            
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight=".33" >
-
-            <ImageView
-                android:adjustViewBounds="true"
-                android:id="@+id/timeImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/timelog"
-                android:gravity="top" />
+        
 
             <Button
                 android:id="@+id/recentTimeLogs"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/recentTimeLogs"
                 android:gravity="center"
@@ -120,28 +79,17 @@
             
         </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/tabfrag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        
+        >
+        
     </LinearLayout>
 	    
-	    <LinearLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:orientation="vertical">
+	   
         
-        <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Client 1"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
-        <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Client 2"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
-        <TextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Judge 1"
-	        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-	   </LinearLayout>     
 </LinearLayout>
