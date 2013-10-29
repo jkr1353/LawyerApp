@@ -4,7 +4,6 @@ package com.example.lawyerapp;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,17 +12,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.TextView;
+
+import com.dropbox.sync.android.DbxFile;
 
 public class MainActivity extends FragmentActivity {
 private ArrayList<Record> mCat; 
 private Fragment frag;
+
+// the below global variable and the function call below that are
+// the ways that we can hopefully save a photo to dropbox
+// -------
+// private DbxFile mFile;
+// mFile.writeFromExistingFile(arg0, arg1);
 	
 
 	@Override
@@ -33,6 +35,8 @@ private Fragment frag;
 		
 		mCat = Catalog.get(this).getRecords(); 
 FragmentManager fm = getSupportFragmentManager(); 
+		
+
 		
 		frag = fm.findFragmentById(R.id.fragmentContainer);
 		
