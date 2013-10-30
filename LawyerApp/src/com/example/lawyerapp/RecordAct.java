@@ -52,8 +52,8 @@ public class RecordAct extends FragmentActivity {
             args.putInt("recordnum",i.getIntExtra("recordnum", 0));
    
             
-			frag = new RecordFragment(); // RecordFragment();  
-			frag.setArguments(args);
+			//frag = new RecordFragment(); // RecordFragment();  
+			//frag.setArguments(args);
 			FragmentTransaction fta = fm.beginTransaction(); 
 			fta.add(R.id.fragmentContainer, frag);
 			fta.commit(); 

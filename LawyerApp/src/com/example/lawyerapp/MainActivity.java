@@ -1,95 +1,147 @@
 package com.example.lawyerapp;
 
-
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
-import com.dropbox.sync.android.DbxFile;
 
-public class MainActivity extends FragmentActivity {
-private ArrayList<Record> mCat; 
-private Fragment frag;
+//import com.example.lawyerapp.ContactDao.Properties;
+//import com.example.lawyerapp.Catalog;
+import com.example.lawyerapp.MainActivity;
+import com.example.lawyerapp.R;
+//import com.example.lawyerapp.RecordListFrag;
+import com.example.lawyerapp.DaoMaster.DevOpenHelper;
 
-// the below global variable and the function call below that are
-// the ways that we can hopefully save a photo to dropbox
-// -------
-// private DbxFile mFile;
-// mFile.writeFromExistingFile(arg0, arg1);
-	
+public class MainActivity extends ListActivity{
 
+	private SQLiteDatabase db;
+
+    private EditText editText, editType;
+
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+    private CasesDao caseDao;
+
+    private Cursor cursor;
+    
+    private Button addNewCase;
+    
+    private String noteText, caseType;
+    
+    //private ListView myListView;
+
+    @SuppressWarnings("deprecation")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		mCat = Catalog.get(this).getRecords(); 
-FragmentManager fm = getSupportFragmentManager(); 
-		
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		
-		frag = fm.findFragmentById(R.id.fragmentContainer);
-		
-		if (frag == null) {
-			frag = new RecordListFrag(); // RecordFragment();  
-			//frag = new RecordFragment(); 
-			FragmentTransaction fta = fm.beginTransaction(); 
-			fta.add(R.id.fragmentContainer, frag);
-			fta.commit(); 
-		
-			Button b=(Button)findViewById(R.id.button1);
-			b.setOnClickListener(new View.OnClickListener() {
+        final Context cont = this;
+        
+        setContentView(R.layout.all_cases);
+        
+        addNewCase = (Button) findViewById(R.id.buttonAdd);
 
-				  @Override
-				  public void onClick(View view) {
-					 //openDialog1(view);
-					  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-					  final LayoutInflater inflater = getLayoutInflater();
+        addNewCase.setOnClickListener(new View.OnClickListener() {
+			/*
+			@Override
+			public void onClick(View v) {
+				
+				startActivityForResult(new Intent(cont, CaseActivity.class), 1);
+				
+			}
+			*/
+			@Override
+			  public void onClick(View view) {
+				 //openDialog1(view);
+				  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				  final LayoutInflater inflater = getLayoutInflater();
 
-					  final View AlertView = inflater.inflate(R.layout.new_case_dialog, null);
-					  builder.setView(AlertView);
-					  AlertDialog ad = builder.create();
-					  ad.setTitle("Create New Case");
-					  ad.setButton(AlertDialog.BUTTON_POSITIVE, "Create Case",
-							    new DialogInterface.OnClickListener() {
-							        public void onClick(DialogInterface dialog, int which) {
-							        	
-							        	EditText et = (EditText)AlertView.findViewById(R.id.casename);
-							        	Catalog.get(MainActivity.this).CreateRecord(et.getText().toString());
-							        	
-							        	((RecordListFrag)frag).reset();
-							        }
-							    });
-					  ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-							    new DialogInterface.OnClickListener() {
-							        public void onClick(DialogInterface dialog, int which) {
-							        }
-							    });
-					  
-							ad.show();
-				  }
+				  final View AlertView = inflater.inflate(R.layout.new_case_dialog, null);
+				  builder.setView(AlertView);
+				  AlertDialog ad = builder.create();
+				  ad.setTitle("Create New Case");
+				  ad.setButton(AlertDialog.BUTTON_POSITIVE, "Create Case",
+						    new DialogInterface.OnClickListener() {
+						        public void onClick(DialogInterface dialog, int which) {
+						        	
+						        	EditText eText = (EditText) AlertView.findViewById(R.id.eTextNote);
+						            EditText eType = (EditText) AlertView.findViewById(R.id.eTextType);
+						            
+						            noteText = eText.getText().toString();
+						            caseType = eType.getText().toString();
+						        	
+						        	Cases newCase = new Cases(null, noteText, caseType);
 
-				});
-			
-		}
-		
-	}
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-*/
+						            caseDao.insert(newCase);
+						            Log.d("DaoExample", "Inserted new note, ID: " + newCase.getId());
+
+						            cursor.requery();
+						        }
+						    });
+				  ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+						    new DialogInterface.OnClickListener() 
+				  			{
+						        public void onClick(DialogInterface dialog, int which) 
+						        {
+						        	
+						        }
+						    });
+				  
+						ad.show();
+			  }
+		});
+        
+        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cases-db", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+        caseDao = daoSession.getCasesDao();
+
+        String textColumn = CasesDao.Properties.Name.columnName;
+        //String orderBy = textColumn + " COLLATE LOCALIZED ASC";
+        
+        cursor = db.query(caseDao.getTablename(), caseDao.getAllColumns(), null, null, null, null, null/*orderBy*/);
+        String[] from = {textColumn, CasesDao.Properties.Casetype.columnName};
+        int[] to = { R.id.textView1, R.id.textView2 };
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.list_item2, cursor, from,
+                to);
+        setListAdapter(adapter);
+        
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        
+    	Intent newIntent = new Intent(this, CaseActivity.class);
+    	
+    	Cases newCase = caseDao.queryBuilder().where(CasesDao.Properties.Id.eq(id)).unique();
+    	String newString = newCase.getName();
+    	newIntent.putExtra("name", newString);
+    	
+    	startActivity(newIntent);
+    	
+    	//caseDao.deleteByKey(id);
+        //Log.d("DaoExample", "Deleted note, ID: " + id);
+        //cursor.requery();
+    }
+
 }

@@ -16,7 +16,7 @@
 	        android:id="@+id/Title"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/record_title_str"
+	        android:text="Title"
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
 	    
 	</LinearLayout> 

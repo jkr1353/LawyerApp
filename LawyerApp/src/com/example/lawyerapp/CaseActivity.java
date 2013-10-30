@@ -1,62 +1,49 @@
 package com.example.lawyerapp;
 
-import java.util.ArrayList;
-
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-/*
-public class RecordFragment extends Fragment {
-	private Record mRecord; 
+
+public class CaseActivity extends Activity {
+
+    private TextView title;
+    //private Record mRecord; 
 	private EditText mEditTitle;
 	private Button mDocsBut;
 	private Button mContactBut;
 	private Button mTimeBut;
 	private TextView mTitle;
-	private ArrayList<Record> mCat; 
+	//private ArrayList<Record> mCat; 
 	private Fragment contactfrag; //1
 	private Fragment filefrag;    //2
 	private Fragment logfrag;     //3
 	private int FragSelect=0;
-	
-	
-	
-	
+
 	@Override
-	public void onCreate(Bundle saved) {
-		
-		super.onCreate(saved);
-		Bundle bundle=getArguments();
-		
-		mCat = Catalog.get(getActivity()).getRecords();
-		mRecord= (Record)mCat.get(bundle.getInt("recordnum"));		
-	}
-	
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle saved) {
-		View v = inflater.inflate(R.layout.fragment_record, parent,false); 
-		
-		mTitle=(TextView) v.findViewById(R.id.Title);
-		mTitle.setText(mRecord.getmTitle());
-		mEditTitle=(EditText) v.findViewById(R.id.editTitle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.fragment_record);
+
+        title = (TextView) findViewById(R.id.Title);
+        
+        String newName = getIntent().getExtras().getString("name");
+        
+        title.setText(newName);
+    		
+		mEditTitle=(EditText) findViewById(R.id.editTitle);
 		mEditTitle.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence c, int start, int before, int count) {
-				mRecord.setmTitle(c.toString());
-				mTitle.setText(mRecord.getmTitle());
+				
+				//mTitle.setText(mRecord.getmTitle());
 			}
 
 			@Override
@@ -75,12 +62,13 @@ public class RecordFragment extends Fragment {
 			
 		}); 
 		
-		final LinearLayout editLayout = (LinearLayout) v.findViewById(R.id.editLayout);
-		final LinearLayout titleLayout = (LinearLayout) v.findViewById(R.id.titleLayout);
+		/*
+		final LinearLayout editLayout = (LinearLayout) findViewById(R.id.editLayout);
+		final LinearLayout titleLayout = (LinearLayout) findViewById(R.id.titleLayout);
 		
 		if(!(v instanceof EditText)) {
 
-	        v.setOnTouchListener(new OnTouchListener() {
+	        setOnTouchListener(new OnTouchListener() {
 
 	            public boolean onTouch(View v, MotionEvent event) {
 	            	editLayout.setVisibility(View.GONE);
@@ -91,6 +79,7 @@ public class RecordFragment extends Fragment {
 
 	        });
 	    }
+		
 		
 		mTitle.setOnClickListener(new View.OnClickListener() {
 
@@ -110,15 +99,18 @@ public class RecordFragment extends Fragment {
 			  }
 
 			});
+		*/
 		
-		mDocsBut=(Button) v.findViewById(R.id.recentDocs);
-		mContactBut=(Button) v.findViewById(R.id.recentContacts);
-		mTimeBut=(Button) v.findViewById(R.id.recentTimeLogs);
+		mDocsBut=(Button) findViewById(R.id.recentDocs);
+		mContactBut=(Button) findViewById(R.id.recentContacts);
+		mTimeBut=(Button) findViewById(R.id.recentTimeLogs);
+		
 		
 		contactfrag = new ContactFrag();
 		filefrag = new FileFrag();
 		logfrag = new LogFrag();
-		final FragmentManager fm = getFragmentManager();
+		final android.app.FragmentManager fm = getFragmentManager();
+		
 		
 		mDocsBut.setOnClickListener(new View.OnClickListener() {
 
@@ -131,7 +123,7 @@ public class RecordFragment extends Fragment {
 				  
 					if (FragSelect==0)
 					{
-						FragmentTransaction fta = fm.beginTransaction();
+						android.app.FragmentTransaction fta = fm.beginTransaction();
 						fta.add(R.id.tabfrag, filefrag);
 						fta.commit(); 
 						FragSelect=2;
@@ -141,7 +133,7 @@ public class RecordFragment extends Fragment {
 					if (FragSelect != 2) {
 						if(FragSelect==1)
 						{
-							FragmentTransaction fta = fm.beginTransaction();
+							android.app.FragmentTransaction fta = fm.beginTransaction();
 							fta.remove(contactfrag).commit();
 						}
 						else  //3
@@ -228,15 +220,6 @@ public class RecordFragment extends Fragment {
 						FragSelect=3;
 					}
 			  }
-
-			});
-		
-		
-		
-		
-		
-		
-		return v; 
-	}
+		});
+    }  
 }
-*/

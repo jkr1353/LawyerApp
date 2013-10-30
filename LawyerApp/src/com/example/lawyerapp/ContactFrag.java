@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.R.drawable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
