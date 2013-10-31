@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-//import com.example.lawyerapp.RecordListFrag;
 
 public class MainActivity extends ListActivity{
 
@@ -34,8 +33,6 @@ public class MainActivity extends ListActivity{
     private String noteText, caseType;
     
     private String deleteCaseStr, doneCaseStr;
-    
-    //private String state;
 
     @SuppressWarnings("deprecation")
 	@Override

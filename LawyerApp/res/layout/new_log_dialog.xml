@@ -9,10 +9,9 @@
 			android:layout_width="wrap_content"
 			android:inputType="text"
 			android:imeOptions="actionDone"
-			android:id="@+id/editTextNote"
-			android:hint="Enter new note">
-        
-    </EditText>
+			android:id="@+id/editTextName"
+			android:hint="Enter Name"
+			/>
     
 	<EditText 
 	    	android:gravity="center"
@@ -20,8 +19,31 @@
 		    android:layout_width="wrap_content"
 		    android:inputType="number"
 			android:id="@+id/editTextHours"
-			android:hint="Hours"
+			android:hint="Enter Hours"
 		    />
+	
+	<EditText
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:inputType="number"
+			android:id="@+id/editTextExpense"
+			android:hint="Enter expense"
+			/>
+	
+	<EditText
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:inputType="text"
+			android:imeOptions="actionDone"
+			android:id="@+id/editTextMileage"
+			android:hint="Enter mileage"
+			/>
 
+	<EditText
+	    android:id="@+id/editTextNote"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:inputType="textMultiLine"
+	    android:hint="Enter note" />
    
 </LinearLayout>

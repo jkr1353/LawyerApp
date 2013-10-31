@@ -7,6 +7,7 @@ package com.example.lawyerapp;
 public class Logs {
 
     private Long id;
+    private String name;
     private Long parentID;
     private String logDate;
     private java.util.Date date;
@@ -22,8 +23,9 @@ public class Logs {
         this.id = id;
     }
 
-    public Logs(Long id, Long parentID, String logDate, java.util.Date date, String notes, Float expenses, Float mileage, Float hours) {
+    public Logs(Long id, String name, Long parentID, String logDate, java.util.Date date, String notes, Float expenses, Float mileage, Float hours) {
         this.id = id;
+        this.name = name;
         this.parentID = parentID;
         this.logDate = logDate;
         this.date = date;
@@ -39,6 +41,14 @@ public class Logs {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getParentID() {

@@ -1,6 +1,7 @@
 package com.example.lawyerapp;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -9,7 +10,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class LogFrag extends ListFragment {
 	
@@ -29,6 +30,8 @@ public class LogFrag extends ListFragment {
 	private Long parentID;
 	private String deleteLogStr, doneLogStr;
 	private float tempFloat = 0.0f;
+	private TextView totalHours;
+	private float num_of_hours = 0.0f;
 	
 	@Override
 	public void onCreate(Bundle saved) 
@@ -48,11 +51,23 @@ public class LogFrag extends ListFragment {
 		
 		db = daoinstance.getDb();
 		
-		
+		totalHours = (TextView) v.findViewById(R.id.totalHours);
 		
 		logsDao = daoinstance.getLogsDao();
 		
 		parentID = getActivity().getIntent().getExtras().getLong("id");
+		
+		ArrayList<Logs> newList = (ArrayList<Logs>) logsDao.queryBuilder().where(LogsDao.Properties.ParentID.eq(parentID)).list();
+		
+		if (newList != null)
+		{
+			for (Logs arrayLogs: newList)
+			{
+				num_of_hours += arrayLogs.getHours();
+			}
+		}
+		
+		totalHours.setText("Total Hours: " + Float.toString(num_of_hours));
 		
 		addNewLog = (Button) getActivity().findViewById(R.id.buttonAdd);
 		deleteLog = (Button) getActivity().findViewById(R.id.buttonDelete);
@@ -78,7 +93,7 @@ public class LogFrag extends ListFragment {
 						    new DialogInterface.OnClickListener() {
 						        public void onClick(DialogInterface dialog, int which) {
 						        	
-						        	eText = (EditText) AlertView.findViewById(R.id.editTextNote);
+						        	eText = (EditText) AlertView.findViewById(R.id.editTextName);
 									eHours = (EditText) AlertView.findViewById(R.id.editTextHours);
 						        	
 						        	String noteText = eText.getText().toString();
@@ -94,10 +109,14 @@ public class LogFrag extends ListFragment {
 								        eHours.setText("");
 							        }
 
+							        num_of_hours += tempFloat;
+							        
+							        totalHours.setText("Total Hours: " + Float.toString(num_of_hours));
+							        
 							        final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 							        String comment = "" + df.format(new Date());
 							        
-							        Logs log = new Logs(null, parentID, comment, new Date(), noteText, null, null, tempFloat);
+							        Logs log = new Logs(null, noteText, parentID, comment, new Date(), null, null, null, tempFloat);
 							        logsDao.insert(log);
 
 							        cursor.requery();
@@ -132,7 +151,7 @@ public class LogFrag extends ListFragment {
 			}
 		});
         
-		String textColumn = LogsDao.Properties.Notes.columnName;
+		String textColumn = LogsDao.Properties.Name.columnName;
 		
 		String dateColumn = LogsDao.Properties.Date.columnName;
         String orderBy = dateColumn + " COLLATE LOCALIZED DESC";
@@ -160,6 +179,12 @@ public class LogFrag extends ListFragment {
 		}
 		else
 		{
+			Logs newlog = logsDao.queryBuilder().where(LogsDao.Properties.Id.eq(id)).unique();
+			
+			num_of_hours -= newlog.getHours();
+			
+			totalHours.setText("Total Hours: " + Float.toString(num_of_hours));
+			
 			logsDao.deleteByKey(id);
 		}
 		
