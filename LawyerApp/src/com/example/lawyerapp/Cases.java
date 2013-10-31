@@ -9,6 +9,8 @@ public class Cases {
     private Long id;
     private String name;
     private String casetype;
+    private String caseDate;
+    private java.util.Date date;
 
     public Cases() {
     }
@@ -17,10 +19,12 @@ public class Cases {
         this.id = id;
     }
 
-    public Cases(Long id, String name, String casetype) {
+    public Cases(Long id, String name, String casetype, String caseDate, java.util.Date date) {
         this.id = id;
         this.name = name;
         this.casetype = casetype;
+        this.caseDate = caseDate;
+        this.date = date;
     }
 
     public Long getId() {
@@ -45,6 +49,22 @@ public class Cases {
 
     public void setCasetype(String casetype) {
         this.casetype = casetype;
+    }
+
+    public String getCaseDate() {
+        return caseDate;
+    }
+
+    public void setCaseDate(String caseDate) {
+        this.caseDate = caseDate;
+    }
+
+    public java.util.Date getDate() {
+        return date;
+    }
+
+    public void setDate(java.util.Date date) {
+        this.date = date;
     }
 
 }

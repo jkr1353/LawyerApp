@@ -1,34 +1,23 @@
 package com.example.lawyerapp;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
-
-
-//import com.example.lawyerapp.ContactDao.Properties;
-//import com.example.lawyerapp.Catalog;
-import com.example.lawyerapp.MainActivity;
-import com.example.lawyerapp.R;
 //import com.example.lawyerapp.RecordListFrag;
-import com.example.lawyerapp.DaoMaster.DevOpenHelper;
 
 public class MainActivity extends ListActivity{
 
@@ -40,15 +29,22 @@ public class MainActivity extends ListActivity{
     
     private Cursor cursor;
     
-    private Button addNewCase;
+    private Button addNewCase, deleteCase;
     
     private String noteText, caseType;
+    
+    private String deleteCaseStr, doneCaseStr;
+    
+    //private String state;
 
     @SuppressWarnings("deprecation")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        deleteCaseStr = "Delete Case";
+        doneCaseStr = "Done";
+        
         daoinstance = DaoInstance.getInstance(this);
         
         setContentView(R.layout.all_cases);
@@ -57,12 +53,14 @@ public class MainActivity extends ListActivity{
         caseDao = daoinstance.getCaseDao();
         
         addNewCase = (Button) findViewById(R.id.buttonAdd);
+        deleteCase = (Button) findViewById(R.id.buttonDelete);
+        
+        deleteCase.setText("Delete Case");
 
         addNewCase.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			  public void onClick(View view) {
-				 //openDialog1(view);
 				  AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 				  final LayoutInflater inflater = getLayoutInflater();
 
@@ -80,7 +78,10 @@ public class MainActivity extends ListActivity{
 						            noteText = eText.getText().toString();
 						            caseType = eType.getText().toString();
 						        	
-						        	Cases newCase = new Cases(null, noteText, caseType);
+						            final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+						            String comment = "" + df.format(new Date());
+						            
+						        	Cases newCase = new Cases(null, noteText, caseType, comment, new Date());
 
 						        	caseDao.insert(newCase);
 						            Log.d("DaoExample", "Inserted new note, ID: " + newCase.getId());
@@ -88,6 +89,7 @@ public class MainActivity extends ListActivity{
 						            cursor.requery();
 						        }
 						    });
+				  
 				  ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
 						    new DialogInterface.OnClickListener() 
 				  			{
@@ -101,20 +103,31 @@ public class MainActivity extends ListActivity{
 			  }
 		});
         
-        /*
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "cases-db", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-        caseDao = daoSession.getCasesDao();
-        logsDao = daoSession.getLogsDao();
-*/
-        String textColumn = CasesDao.Properties.Name.columnName;
-        //String orderBy = textColumn + " COLLATE LOCALIZED ASC";
+        deleteCase.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) 
+			{
+				if (deleteCase.getText() == deleteCaseStr)
+				{
+					deleteCase.setText(doneCaseStr);
+				}
+				else
+				{
+					deleteCase.setText(deleteCaseStr);
+				}
+				
+			}
+		});
         
-        cursor = db.query(caseDao.getTablename(), caseDao.getAllColumns(), null, null, null, null, null/*orderBy*/);
-        String[] from = {textColumn, CasesDao.Properties.Casetype.columnName};
-        int[] to = { R.id.textView1, R.id.textView2 };
+        String textColumn = CasesDao.Properties.Name.columnName;
+        
+        String dateColumn = CasesDao.Properties.Date.columnName;
+        String orderBy = dateColumn + " COLLATE LOCALIZED DESC";
+        
+        cursor = db.query(caseDao.getTablename(), caseDao.getAllColumns(), null, null, null, null, orderBy);
+        String[] from = {textColumn, CasesDao.Properties.Casetype.columnName, CasesDao.Properties.CaseDate.columnName};
+        int[] to = { R.id.textView1, R.id.textView2, R.id.dateView };
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.list_item2, cursor, from,
                 to);
@@ -125,19 +138,38 @@ public class MainActivity extends ListActivity{
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) 
     {
-        
-    	Intent newIntent = new Intent(this, CaseActivity.class);
+        if (deleteCase.getText() == deleteCaseStr)
+        {
+	    	Intent newIntent = new Intent(this, CaseActivity.class);
+	    	
+	    	Cases newCase = caseDao.queryBuilder().where(CasesDao.Properties.Id.eq(id)).unique();
+	    	String newString = newCase.getName();
+	    	newIntent.putExtra("name", newString);
+	    	newIntent.putExtra("id", id);
+	    	
+	    	String newType = newCase.getCasetype();
+	    	final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+	        String comment = "" + df.format(new Date());
+	        
+	    	Cases newCase2 = new Cases(id, newString, newType, comment, new Date());
+	    	caseDao.insertOrReplace(newCase2);
+	    	
+	    	startActivity(newIntent);
+        }
+        else
+        {
+        	caseDao.deleteByKey(id);
+        	
+        	cursor.requery();
+        }
+    }
+    
+    @Override
+    public void onResume()
+    {
+    	super.onResume();
     	
-    	Cases newCase = caseDao.queryBuilder().where(CasesDao.Properties.Id.eq(id)).unique();
-    	String newString = newCase.getName();
-    	newIntent.putExtra("name", newString);
-    	newIntent.putExtra("id", id);
-    	
-    	startActivity(newIntent);
-    	
-    	//caseDao.deleteByKey(id);
-        //Log.d("DaoExample", "Deleted note, ID: " + id);
-        //cursor.requery();
+    	cursor.requery();
     }
 
 }

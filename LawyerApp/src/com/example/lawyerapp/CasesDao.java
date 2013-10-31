@@ -26,6 +26,8 @@ public class CasesDao extends AbstractDao<Cases, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Casetype = new Property(2, String.class, "casetype", false, "CASETYPE");
+        public final static Property CaseDate = new Property(3, String.class, "caseDate", false, "CASE_DATE");
+        public final static Property Date = new Property(4, java.util.Date.class, "date", false, "DATE");
     };
 
 
@@ -43,7 +45,9 @@ public class CasesDao extends AbstractDao<Cases, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'CASES' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NAME' TEXT," + // 1: name
-                "'CASETYPE' TEXT);"); // 2: casetype
+                "'CASETYPE' TEXT," + // 2: casetype
+                "'CASE_DATE' TEXT," + // 3: caseDate
+                "'DATE' INTEGER);"); // 4: date
     }
 
     /** Drops the underlying database table. */
@@ -71,6 +75,16 @@ public class CasesDao extends AbstractDao<Cases, Long> {
         if (casetype != null) {
             stmt.bindString(3, casetype);
         }
+ 
+        String caseDate = entity.getCaseDate();
+        if (caseDate != null) {
+            stmt.bindString(4, caseDate);
+        }
+ 
+        java.util.Date date = entity.getDate();
+        if (date != null) {
+            stmt.bindLong(5, date.getTime());
+        }
     }
 
     /** @inheritdoc */
@@ -85,7 +99,9 @@ public class CasesDao extends AbstractDao<Cases, Long> {
         Cases entity = new Cases( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // casetype
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // casetype
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // caseDate
+            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)) // date
         );
         return entity;
     }
@@ -96,6 +112,8 @@ public class CasesDao extends AbstractDao<Cases, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setCasetype(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setCaseDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
      }
     
     /** @inheritdoc */

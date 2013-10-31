@@ -20,6 +20,7 @@ public class CaseActivity extends Activity {
 	private Button mDocsBut;
 	private Button mContactBut;
 	private Button mTimeBut;
+	private Button newButton, deleteButton;
 	private TextView mTitle;
 	//private ArrayList<Record> mCat; 
 	private Fragment contactfrag; //1
@@ -34,6 +35,9 @@ public class CaseActivity extends Activity {
 
         setContentView(R.layout.fragment_record);
 
+        newButton=(Button) findViewById(R.id.buttonAdd);
+		deleteButton=(Button) findViewById(R.id.buttonDelete);
+        
         title = (TextView) findViewById(R.id.Title);
         
         String newName = getIntent().getExtras().getString("name");
@@ -106,7 +110,6 @@ public class CaseActivity extends Activity {
 		mDocsBut=(Button) findViewById(R.id.recentDocs);
 		mContactBut=(Button) findViewById(R.id.recentContacts);
 		mTimeBut=(Button) findViewById(R.id.recentTimeLogs);
-		
 		
 		contactfrag = new ContactFrag();
 		filefrag = new FileFrag();
@@ -231,4 +234,13 @@ public class CaseActivity extends Activity {
 			  }
 		});
     }  
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		newButton.setText("New");
+		deleteButton.setText("Delete");
+	}
 }

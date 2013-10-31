@@ -8,6 +8,7 @@ public class Logs {
 
     private Long id;
     private Long parentID;
+    private String logDate;
     private java.util.Date date;
     private String notes;
     private Float expenses;
@@ -21,9 +22,10 @@ public class Logs {
         this.id = id;
     }
 
-    public Logs(Long id, Long parentID, java.util.Date date, String notes, Float expenses, Float mileage, Float hours) {
+    public Logs(Long id, Long parentID, String logDate, java.util.Date date, String notes, Float expenses, Float mileage, Float hours) {
         this.id = id;
         this.parentID = parentID;
+        this.logDate = logDate;
         this.date = date;
         this.notes = notes;
         this.expenses = expenses;
@@ -45,6 +47,14 @@ public class Logs {
 
     public void setParentID(Long parentID) {
         this.parentID = parentID;
+    }
+
+    public String getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(String logDate) {
+        this.logDate = logDate;
     }
 
     public java.util.Date getDate() {
