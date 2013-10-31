@@ -31,7 +31,7 @@
 			android:gravity="center_vertical"
 			android:layout_gravity="center_vertical"
 			android:layout_alignParentRight="true"
-			android:text="New Case"
+			android:text="New Log"
 			android:id="@+id/buttonAdd"
 			android:onClick="onMyButtonClick">
 		    

@@ -26,6 +26,7 @@ public class CaseActivity extends Activity {
 	private Fragment filefrag;    //2
 	private Fragment logfrag;     //3
 	private int FragSelect=0;
+	private Long caseID;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class CaseActivity extends Activity {
         title = (TextView) findViewById(R.id.Title);
         
         String newName = getIntent().getExtras().getString("name");
+        caseID = getIntent().getExtras().getLong("id");
         
         title.setText(newName);
     		
@@ -197,6 +199,9 @@ public class CaseActivity extends Activity {
 				  if (FragSelect==0)
 					{
 						FragmentTransaction fta = fm.beginTransaction();
+						Bundle bundle = new Bundle();
+						bundle.putLong("id", caseID);
+						logfrag.setArguments(bundle);
 						fta.add(R.id.tabfrag, logfrag);
 						fta.commit(); 
 						FragSelect=3;
@@ -214,7 +219,11 @@ public class CaseActivity extends Activity {
 							FragmentTransaction fta = fm.beginTransaction();
 							fta.remove(filefrag).commit();
 						}
+						
 						FragmentTransaction fta = fm.beginTransaction();
+						Bundle bundle = new Bundle();
+						bundle.putLong("id", caseID);
+						logfrag.setArguments(bundle);
 						fta.add(R.id.tabfrag, logfrag);
 						fta.commit(); 
 						FragSelect=3;

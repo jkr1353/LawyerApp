@@ -24,11 +24,12 @@ public class LogsDao extends AbstractDao<Logs, Long> {
     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Date = new Property(1, java.util.Date.class, "date", false, "DATE");
-        public final static Property Notes = new Property(2, String.class, "notes", false, "NOTES");
-        public final static Property Expenses = new Property(3, Float.class, "expenses", false, "EXPENSES");
-        public final static Property Mileage = new Property(4, Float.class, "mileage", false, "MILEAGE");
-        public final static Property Hours = new Property(5, Float.class, "hours", false, "HOURS");
+        public final static Property ParentID = new Property(1, Long.class, "parentID", false, "PARENT_ID");
+        public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
+        public final static Property Notes = new Property(3, String.class, "notes", false, "NOTES");
+        public final static Property Expenses = new Property(4, Float.class, "expenses", false, "EXPENSES");
+        public final static Property Mileage = new Property(5, Float.class, "mileage", false, "MILEAGE");
+        public final static Property Hours = new Property(6, Float.class, "hours", false, "HOURS");
     };
 
 
@@ -45,11 +46,12 @@ public class LogsDao extends AbstractDao<Logs, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'LOGS' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'DATE' INTEGER," + // 1: date
-                "'NOTES' TEXT," + // 2: notes
-                "'EXPENSES' REAL," + // 3: expenses
-                "'MILEAGE' REAL," + // 4: mileage
-                "'HOURS' REAL);"); // 5: hours
+                "'PARENT_ID' INTEGER," + // 1: parentID
+                "'DATE' INTEGER," + // 2: date
+                "'NOTES' TEXT," + // 3: notes
+                "'EXPENSES' REAL," + // 4: expenses
+                "'MILEAGE' REAL," + // 5: mileage
+                "'HOURS' REAL);"); // 6: hours
     }
 
     /** Drops the underlying database table. */
@@ -68,29 +70,34 @@ public class LogsDao extends AbstractDao<Logs, Long> {
             stmt.bindLong(1, id);
         }
  
+        Long parentID = entity.getParentID();
+        if (parentID != null) {
+            stmt.bindLong(2, parentID);
+        }
+ 
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(2, date.getTime());
+            stmt.bindLong(3, date.getTime());
         }
  
         String notes = entity.getNotes();
         if (notes != null) {
-            stmt.bindString(3, notes);
+            stmt.bindString(4, notes);
         }
  
         Float expenses = entity.getExpenses();
         if (expenses != null) {
-            stmt.bindDouble(4, expenses);
+            stmt.bindDouble(5, expenses);
         }
  
         Float mileage = entity.getMileage();
         if (mileage != null) {
-            stmt.bindDouble(5, mileage);
+            stmt.bindDouble(6, mileage);
         }
  
         Float hours = entity.getHours();
         if (hours != null) {
-            stmt.bindDouble(6, hours);
+            stmt.bindDouble(7, hours);
         }
     }
 
@@ -105,11 +112,12 @@ public class LogsDao extends AbstractDao<Logs, Long> {
     public Logs readEntity(Cursor cursor, int offset) {
         Logs entity = new Logs( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)), // date
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // notes
-            cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3), // expenses
-            cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4), // mileage
-            cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5) // hours
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // parentID
+            cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // notes
+            cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4), // expenses
+            cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5), // mileage
+            cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6) // hours
         );
         return entity;
     }
@@ -118,11 +126,12 @@ public class LogsDao extends AbstractDao<Logs, Long> {
     @Override
     public void readEntity(Cursor cursor, Logs entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setDate(cursor.isNull(offset + 1) ? null : new java.util.Date(cursor.getLong(offset + 1)));
-        entity.setNotes(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setExpenses(cursor.isNull(offset + 3) ? null : cursor.getFloat(offset + 3));
-        entity.setMileage(cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4));
-        entity.setHours(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
+        entity.setParentID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
+        entity.setNotes(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setExpenses(cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4));
+        entity.setMileage(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
+        entity.setHours(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
      }
     
     /** @inheritdoc */
