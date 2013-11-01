@@ -1,6 +1,7 @@
 package com.example.lawyerapp;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.AlertDialog;
@@ -26,6 +27,8 @@ public class MainActivity extends ListActivity{
     
     private CasesDao caseDao;
     
+    private LogsDao logsDao;
+    
     private Cursor cursor;
     
     private Button addNewCase, deleteCase;
@@ -48,6 +51,7 @@ public class MainActivity extends ListActivity{
         
         db = daoinstance.getDb();
         caseDao = daoinstance.getCaseDao();
+        logsDao = daoinstance.getLogsDao();
         
         addNewCase = (Button) findViewById(R.id.buttonAdd);
         deleteCase = (Button) findViewById(R.id.buttonDelete);
@@ -155,6 +159,16 @@ public class MainActivity extends ListActivity{
         }
         else
         {
+        	ArrayList<Logs> newLogs = (ArrayList<Logs>) logsDao.queryBuilder().where(LogsDao.Properties.ParentID.eq(id)).list();
+        	
+        	if (newLogs != null)
+        	{
+	        	for (Logs newLog : newLogs)
+	        	{
+	        		logsDao.deleteByKey(newLog.getId());
+	        	}
+        	}
+        	
         	caseDao.deleteByKey(id);
         	
         	cursor.requery();

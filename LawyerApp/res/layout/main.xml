@@ -39,7 +39,8 @@
 		<ListView
 		    android:id="@android:id/list"
 		    android:background="@color/colorScheme2"
-		    android:padding="10dp"
+		   	android:paddingLeft="10dp"
+		    android:paddingRight="10dp"
 		    android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 		</ListView>
