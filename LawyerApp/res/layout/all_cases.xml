@@ -30,6 +30,8 @@
 	    android:layout_height="wrap_content"
 	    android:background="@color/menuBar"
 	    android:layout_gravity="center_vertical"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp"
 	    android:layout_alignParentBottom="true">
 		
 		<Button

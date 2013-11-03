@@ -56,6 +56,13 @@ public class MainActivity extends ListActivity{
         addNewCase = (Button) findViewById(R.id.buttonAdd);
         deleteCase = (Button) findViewById(R.id.buttonDelete);
         
+        final int buttonColor;
+		
+		buttonColor = getResources().getColor(R.color.colorScheme2);
+		
+        addNewCase.setBackgroundColor(buttonColor);
+        deleteCase.setBackgroundColor(buttonColor);
+        
         deleteCase.setText("Delete Case");
 
         addNewCase.setOnClickListener(new View.OnClickListener() {

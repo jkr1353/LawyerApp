@@ -124,7 +124,7 @@ public class LogFrag extends ListFragment {
 							        final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 							        String comment = "" + df.format(new Date());
 							        
-							        Logs log = new Logs(null, noteText, parentID, comment, new Date(), tempNotes, tempExpense, tempMileage, tempFloat);
+							        Logs log = new Logs(null, noteText, parentID, comment, new Date(), tempNotes, tempExpense, tempMileage, tempHours);
 							        logsDao.insert(log);
 
 							        totalHours.setText("Total Hours: " + calcTotalHours());
@@ -225,6 +225,8 @@ public class LogFrag extends ListFragment {
 						        eText.setText("");
 						        
 						        checkForNull(eHours);
+						        
+						        
 						        tempHours = tempFloat;
 						        
 						        checkForNull(eMileage);
@@ -273,7 +275,7 @@ public class LogFrag extends ListFragment {
 	{
 		if (tempText.getText().toString().isEmpty())
         {
-        	tempFloat = 0.0f;
+        	tempFloat = 10.0f;
         }
         else
         {

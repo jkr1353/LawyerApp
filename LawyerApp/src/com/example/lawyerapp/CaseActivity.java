@@ -116,14 +116,21 @@ public class CaseActivity extends Activity {
 		logfrag = new LogFrag();
 		final android.app.FragmentManager fm = getFragmentManager();
 		
+		final int buttonColor, buttonSelected;
+		
+		buttonColor = getResources().getColor(R.color.colorScheme2);
+		buttonSelected = getResources().getColor(R.color.tabSelected);
+		
+		newButton.setBackgroundColor(buttonColor);
+		deleteButton.setBackgroundColor(buttonColor);
 		
 		mDocsBut.setOnClickListener(new View.OnClickListener() {
 
 			  @Override
 			  public void onClick(View view) {
-				  mDocsBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
-				  mContactBut.setBackgroundColor(Color.parseColor("#157DEC"));
-				  mTimeBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mDocsBut.setBackgroundColor(buttonSelected);
+				  mContactBut.setBackgroundColor(buttonColor);
+				  mTimeBut.setBackgroundColor(buttonColor);
 				  
 				  
 					if (FragSelect==0)
@@ -158,9 +165,9 @@ public class CaseActivity extends Activity {
 
 			  @Override
 			  public void onClick(View view) {
-				  mDocsBut.setBackgroundColor(Color.parseColor("#157DEC"));
-				  mContactBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
-				  mTimeBut.setBackgroundColor(Color.parseColor("#157DEC"));
+				  mDocsBut.setBackgroundColor(buttonColor);
+				  mContactBut.setBackgroundColor(buttonSelected);
+				  mTimeBut.setBackgroundColor(buttonColor);
 				  
 				  if (FragSelect==0)
 					{
@@ -194,9 +201,9 @@ public class CaseActivity extends Activity {
 
 			  @Override
 			  public void onClick(View view) {
-				  mDocsBut.setBackgroundColor(Color.parseColor("#157DEC"));
-				  mContactBut.setBackgroundColor(Color.parseColor("#157DEC"));
-				  mTimeBut.setBackgroundColor(Color.parseColor("#AFDCEC"));
+				  mDocsBut.setBackgroundColor(buttonColor);
+				  mContactBut.setBackgroundColor(buttonColor);
+				  mTimeBut.setBackgroundColor(buttonSelected);
 				  
 					
 				  if (FragSelect==0)
