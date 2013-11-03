@@ -34,50 +34,6 @@
 		    />
 	
 	</LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        >
-	
-		<TextView
-		    android:id="@+id/textViewExpense"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="Expenses: " />
-		
-		<EditText
-		    android:gravity="center"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:inputType="number"
-			android:id="@+id/editTextExpense"
-			/>
-	</LinearLayout>
-	
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        >
-	
-		<TextView
-		    android:id="@+id/textViewMileage"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="Mileage: " />
-		
-		<EditText
-		    android:gravity="center"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:inputType="text"
-			android:imeOptions="actionDone"
-			android:id="@+id/editTextMileage"
-			/>
-	
-	</LinearLayout>
 	
 	<EditText
 	    android:gravity="center"

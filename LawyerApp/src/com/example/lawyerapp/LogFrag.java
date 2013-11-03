@@ -76,27 +76,30 @@ public class LogFrag extends ListFragment {
 
 				  TextView tVHours, tVExpense, tVMileage;
 				  
-				  final View AlertView = lInflater.inflate(R.layout.new_log_dialog, null);
+				  final View AlertView = lInflater.inflate(R.layout.new_loghours_dialog, null);
 				  
 				  	eText = (EditText) AlertView.findViewById(R.id.editTextName);
 					eHours = (EditText) AlertView.findViewById(R.id.editTextHours);
 					eNotes = (EditText) AlertView.findViewById(R.id.editTextNote);
-					eMileage = (EditText) AlertView.findViewById(R.id.editTextMileage);
-					eExpense = (EditText) AlertView.findViewById(R.id.editTextExpense);
+					//eMileage = (EditText) AlertView.findViewById(R.id.editTextMileage);
+					//eExpense = (EditText) AlertView.findViewById(R.id.editTextExpense);
 				  
 					tVHours = (TextView) AlertView.findViewById(R.id.textViewHours);
-					tVExpense = (TextView) AlertView.findViewById(R.id.textViewExpense);
-					tVMileage = (TextView) AlertView.findViewById(R.id.textViewMileage);
+					//tVExpense = (TextView) AlertView.findViewById(R.id.textViewExpense);
+					//tVMileage = (TextView) AlertView.findViewById(R.id.textViewMileage);
 					
 					tVHours.setText("");
-					tVExpense.setText("");
-					tVMileage.setText("");
+					//tVExpense.setText("");
+					//tVMileage.setText("");
 					
 					eText.setHint("Name");
 					eHours.setHint("Hours");
 					eNotes.setHint("Notes");
 					eExpense.setHint("Expense");
 					eMileage.setHint("Mileage");
+					
+					eExpense.setVisibility(View.GONE);
+					eMileage.setVisibility(View.GONE);
 					
 				  builder.setView(AlertView);
 				  AlertDialog ad = builder.create();
@@ -113,18 +116,20 @@ public class LogFrag extends ListFragment {
 							        checkForNull(eHours);
 							        tempHours = tempFloat;
 							        
+							        /*
 							        checkForNull(eMileage);
 							        tempMileage = tempFloat;
 							        
 							        checkForNull(eExpense);
 							        tempExpense = tempFloat;
+							        */
 							        
 							        String tempNotes = eNotes.getText().toString();
 							        
 							        final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 							        String comment = "" + df.format(new Date());
 							        
-							        Logs log = new Logs(null, noteText, parentID, comment, new Date(), tempNotes, tempExpense, tempMileage, tempHours);
+							        Logs log = new Logs(null, noteText, parentID, comment, new Date(), tempNotes, null, tempHours, null, null);
 							        logsDao.insert(log);
 
 							        totalHours.setText("Total Hours: " + calcTotalHours());
@@ -193,19 +198,19 @@ public class LogFrag extends ListFragment {
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-			  final View AlertView = View.inflate(getActivity(), R.layout.new_log_dialog, null);
+			  final View AlertView = View.inflate(getActivity(), R.layout.new_loghours_dialog, null);
 					  
 			  eText = (EditText) AlertView.findViewById(R.id.editTextName);
 				eHours = (EditText) AlertView.findViewById(R.id.editTextHours);
 				eNotes = (EditText) AlertView.findViewById(R.id.editTextNote);
-				eMileage = (EditText) AlertView.findViewById(R.id.editTextMileage);
-				eExpense = (EditText) AlertView.findViewById(R.id.editTextExpense);
+				//eMileage = (EditText) AlertView.findViewById(R.id.editTextMileage);
+				//eExpense = (EditText) AlertView.findViewById(R.id.editTextExpense);
 				
 				eText.setText(newlog.getName());
 				eHours.setText(newlog.getHours()+"");
 				eNotes.setText(newlog.getNotes());
-				eMileage.setText(newlog.getMileage()+"");
-				eExpense.setText(newlog.getExpenses()+"");
+				//eMileage.setText(newlog.getMileage()+"");
+				//eExpense.setText(newlog.getExpenses()+"");
 				
 				if (eNotes.getText().toString().isEmpty())
 				{
@@ -229,18 +234,18 @@ public class LogFrag extends ListFragment {
 						        
 						        tempHours = tempFloat;
 						        
-						        checkForNull(eMileage);
-						        tempMileage = tempFloat;
+						        //checkForNull(eMileage);
+						        //tempMileage = tempFloat;
 						        
-						        checkForNull(eExpense);
-						        tempExpense = tempFloat;
+						        //checkForNull(eExpense);
+						        //tempExpense = tempFloat;
 						        
 						        String tempNotes = eNotes.getText().toString();
 						        
 						        final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 						        String comment = "" + df.format(new Date());
 						        
-						        Logs log = new Logs(tempID, noteText, parentID, comment, new Date(), tempNotes, tempExpense, tempMileage, tempHours);
+						        Logs log = new Logs(tempID, noteText, parentID, comment, new Date(), tempNotes, null, tempHours, null, null);
 						        logsDao.insertOrReplace(log);
 
 						        totalHours.setText("Total Hours: " + calcTotalHours());
@@ -261,7 +266,7 @@ public class LogFrag extends ListFragment {
 		}
 		else
 		{
-			Logs newlog = logsDao.queryBuilder().where(LogsDao.Properties.Id.eq(id)).unique();
+			//Logs newlog = logsDao.queryBuilder().where(LogsDao.Properties.Id.eq(id)).unique();
 			
 			totalHours.setText("Total Hours: " + calcTotalHours());
 			
@@ -275,7 +280,7 @@ public class LogFrag extends ListFragment {
 	{
 		if (tempText.getText().toString().isEmpty())
         {
-        	tempFloat = 10.0f;
+        	tempFloat = 0.0f;
         }
         else
         {

@@ -12,9 +12,10 @@ public class Logs {
     private String logDate;
     private java.util.Date date;
     private String notes;
-    private Float expenses;
-    private Float mileage;
+    private String logType;
     private Float hours;
+    private Float mileage;
+    private Float expenses;
 
     public Logs() {
     }
@@ -23,16 +24,17 @@ public class Logs {
         this.id = id;
     }
 
-    public Logs(Long id, String name, Long parentID, String logDate, java.util.Date date, String notes, Float expenses, Float mileage, Float hours) {
+    public Logs(Long id, String name, Long parentID, String logDate, java.util.Date date, String notes, String logType, Float hours, Float mileage, Float expenses) {
         this.id = id;
         this.name = name;
         this.parentID = parentID;
         this.logDate = logDate;
         this.date = date;
         this.notes = notes;
-        this.expenses = expenses;
-        this.mileage = mileage;
+        this.logType = logType;
         this.hours = hours;
+        this.mileage = mileage;
+        this.expenses = expenses;
     }
 
     public Long getId() {
@@ -83,12 +85,20 @@ public class Logs {
         this.notes = notes;
     }
 
-    public Float getExpenses() {
-        return expenses;
+    public String getLogType() {
+        return logType;
     }
 
-    public void setExpenses(Float expenses) {
-        this.expenses = expenses;
+    public void setLogType(String logType) {
+        this.logType = logType;
+    }
+
+    public Float getHours() {
+        return hours;
+    }
+
+    public void setHours(Float hours) {
+        this.hours = hours;
     }
 
     public Float getMileage() {
@@ -99,12 +109,12 @@ public class Logs {
         this.mileage = mileage;
     }
 
-    public Float getHours() {
-        return hours;
+    public Float getExpenses() {
+        return expenses;
     }
 
-    public void setHours(Float hours) {
-        this.hours = hours;
+    public void setExpenses(Float expenses) {
+        this.expenses = expenses;
     }
 
 }

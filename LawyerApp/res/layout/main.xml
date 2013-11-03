@@ -23,6 +23,8 @@
 		        android:layout_width="match_parent"
 		        android:layout_height="match_parent"
 		        android:gravity="center"
+		        android:paddingLeft="10dp"
+		        android:paddingRight="10dp"
 		        android:background="@color/colorScheme2"
 		        >
 	
@@ -30,7 +32,27 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="Total Hours: "
+		            android:layout_weight="1"
+		            android:gravity="center"
 		            android:id="@+id/totalHours"
+		             />
+		        
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Total Expense: "
+		            android:layout_weight="1"
+		            android:gravity="center"
+		            android:id="@+id/totalExpenses"
+		             />
+		        
+		        <TextView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Total Mileage: "
+		            android:layout_weight="1"
+		            android:gravity="center"
+		            android:id="@+id/totalMileage"
 		             />
 	
 		    </LinearLayout>

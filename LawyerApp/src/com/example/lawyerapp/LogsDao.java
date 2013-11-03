@@ -29,9 +29,10 @@ public class LogsDao extends AbstractDao<Logs, Long> {
         public final static Property LogDate = new Property(3, String.class, "logDate", false, "LOG_DATE");
         public final static Property Date = new Property(4, java.util.Date.class, "date", false, "DATE");
         public final static Property Notes = new Property(5, String.class, "notes", false, "NOTES");
-        public final static Property Expenses = new Property(6, Float.class, "expenses", false, "EXPENSES");
-        public final static Property Mileage = new Property(7, Float.class, "mileage", false, "MILEAGE");
-        public final static Property Hours = new Property(8, Float.class, "hours", false, "HOURS");
+        public final static Property LogType = new Property(6, String.class, "logType", false, "LOG_TYPE");
+        public final static Property Hours = new Property(7, Float.class, "hours", false, "HOURS");
+        public final static Property Mileage = new Property(8, Float.class, "mileage", false, "MILEAGE");
+        public final static Property Expenses = new Property(9, Float.class, "expenses", false, "EXPENSES");
     };
 
 
@@ -53,9 +54,10 @@ public class LogsDao extends AbstractDao<Logs, Long> {
                 "'LOG_DATE' TEXT," + // 3: logDate
                 "'DATE' INTEGER," + // 4: date
                 "'NOTES' TEXT," + // 5: notes
-                "'EXPENSES' REAL," + // 6: expenses
-                "'MILEAGE' REAL," + // 7: mileage
-                "'HOURS' REAL);"); // 8: hours
+                "'LOG_TYPE' TEXT," + // 6: logType
+                "'HOURS' REAL," + // 7: hours
+                "'MILEAGE' REAL," + // 8: mileage
+                "'EXPENSES' REAL);"); // 9: expenses
     }
 
     /** Drops the underlying database table. */
@@ -99,19 +101,24 @@ public class LogsDao extends AbstractDao<Logs, Long> {
             stmt.bindString(6, notes);
         }
  
-        Float expenses = entity.getExpenses();
-        if (expenses != null) {
-            stmt.bindDouble(7, expenses);
-        }
- 
-        Float mileage = entity.getMileage();
-        if (mileage != null) {
-            stmt.bindDouble(8, mileage);
+        String logType = entity.getLogType();
+        if (logType != null) {
+            stmt.bindString(7, logType);
         }
  
         Float hours = entity.getHours();
         if (hours != null) {
-            stmt.bindDouble(9, hours);
+            stmt.bindDouble(8, hours);
+        }
+ 
+        Float mileage = entity.getMileage();
+        if (mileage != null) {
+            stmt.bindDouble(9, mileage);
+        }
+ 
+        Float expenses = entity.getExpenses();
+        if (expenses != null) {
+            stmt.bindDouble(10, expenses);
         }
     }
 
@@ -131,9 +138,10 @@ public class LogsDao extends AbstractDao<Logs, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // logDate
             cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)), // date
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // notes
-            cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6), // expenses
-            cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7), // mileage
-            cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8) // hours
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // logType
+            cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7), // hours
+            cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8), // mileage
+            cursor.isNull(offset + 9) ? null : cursor.getFloat(offset + 9) // expenses
         );
         return entity;
     }
@@ -147,9 +155,10 @@ public class LogsDao extends AbstractDao<Logs, Long> {
         entity.setLogDate(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
         entity.setNotes(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setExpenses(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
-        entity.setMileage(cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7));
-        entity.setHours(cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8));
+        entity.setLogType(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setHours(cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7));
+        entity.setMileage(cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8));
+        entity.setExpenses(cursor.isNull(offset + 9) ? null : cursor.getFloat(offset + 9));
      }
     
     /** @inheritdoc */
