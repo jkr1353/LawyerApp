@@ -20,7 +20,7 @@
         >
         
 	    <TextView
-	        android:id="@+id/textViewMileage"
+	        android:id="@+id/textViewName"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="Mileage: " />
@@ -30,7 +30,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_width="wrap_content"
 		    android:inputType="number"
-			android:id="@+id/editTextMileage"
+			android:id="@+id/editTextValue"
 		    />
 	
 	</LinearLayout>

@@ -20,7 +20,7 @@ public class CaseActivity extends Activity {
 	private Button mDocsBut;
 	private Button mContactBut;
 	private Button mTimeBut;
-	private Button newButton, deleteButton;
+	private Button newHoursButton, newExpenseButton, newMileageButton, deleteButton;
 	private TextView mTitle;
 	//private ArrayList<Record> mCat; 
 	private Fragment contactfrag; //1
@@ -35,7 +35,9 @@ public class CaseActivity extends Activity {
 
         setContentView(R.layout.fragment_record);
 
-        newButton=(Button) findViewById(R.id.buttonAdd);
+        newHoursButton=(Button) findViewById(R.id.buttonNewHours);
+        newExpenseButton=(Button) findViewById(R.id.buttonNewExpense);
+        newMileageButton=(Button) findViewById(R.id.buttonNewMileage);
 		deleteButton=(Button) findViewById(R.id.buttonDelete);
         
         title = (TextView) findViewById(R.id.Title);
@@ -121,7 +123,9 @@ public class CaseActivity extends Activity {
 		buttonColor = getResources().getColor(R.color.colorScheme2);
 		buttonSelected = getResources().getColor(R.color.tabSelected);
 		
-		newButton.setBackgroundColor(buttonColor);
+		newHoursButton.setBackgroundColor(buttonColor);
+		newExpenseButton.setBackgroundColor(buttonColor);
+		newMileageButton.setBackgroundColor(buttonColor);
 		deleteButton.setBackgroundColor(buttonColor);
 		
 		mDocsBut.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +251,9 @@ public class CaseActivity extends Activity {
 	{
 		super.onResume();
 		
-		newButton.setText("New");
+		newHoursButton.setText("New");
+		newExpenseButton.setVisibility(View.INVISIBLE);
+		newMileageButton.setVisibility(View.INVISIBLE);
 		deleteButton.setText("Delete");
 	}
 }
