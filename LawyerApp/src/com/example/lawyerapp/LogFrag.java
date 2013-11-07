@@ -71,6 +71,9 @@ public class LogFrag extends ListFragment {
 		addNewMileage = (Button) getActivity().findViewById(R.id.buttonNewMileage);
 		deleteLog = (Button) getActivity().findViewById(R.id.buttonDelete);
 		
+		deleteLog.setVisibility(View.VISIBLE);
+		addNewHours.setVisibility(View.VISIBLE);
+		
 		deleteLog.setText(deleteLogStr);
 		addNewHours.setText("New Hours");
 		

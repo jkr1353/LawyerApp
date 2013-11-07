@@ -45,6 +45,9 @@ public class ContactFrag extends Fragment {
 		addNewExpense.setVisibility(View.INVISIBLE);
 		addNewMileage.setVisibility(View.INVISIBLE);
 		
+		newButton.setVisibility(View.VISIBLE);
+		deleteContact.setVisibility(View.VISIBLE);
+		
 		newButton.setText("New Contact");
 		deleteContact.setText("Delete Contact");
 		

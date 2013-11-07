@@ -1,76 +1,114 @@
 package com.example.lawyerapp;
 
+import java.text.DateFormat;
+import java.util.Date;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CaseActivity extends FragmentActivity {
 
-    private TextView title;
     //private Record mRecord; 
-	private EditText mEditTitle;
 	private Button mDocsBut;
 	private Button mContactBut;
 	private Button mTimeBut;
+	private Button mTitle;
 	private Button newHoursButton, newExpenseButton, newMileageButton, deleteButton;
-	private TextView mTitle;
 	//private ArrayList<Record> mCat; 
 	private Fragment contactfrag; //1
 	private Fragment filefrag;    //2
 	private Fragment logfrag;     //3
 	private int FragSelect=0;
 	private Long caseID;
+	private CasesDao casesDao;
+	private SQLiteDatabase db;
+    private DaoInstance daoinstance;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         setContentView(R.layout.fragment_record);
 
+        daoinstance = DaoInstance.getInstance(this);
+        db = daoinstance.getDb();
+        casesDao = daoinstance.getCaseDao();
+        
         newHoursButton=(Button) findViewById(R.id.buttonNewHours);
         newExpenseButton=(Button) findViewById(R.id.buttonNewExpense);
         newMileageButton=(Button) findViewById(R.id.buttonNewMileage);
 		deleteButton=(Button) findViewById(R.id.buttonDelete);
         
-        title = (TextView) findViewById(R.id.Title);
-        
         String newName = getIntent().getExtras().getString("name");
         caseID = getIntent().getExtras().getLong("id");
-        
-        title.setText(newName);
-    		
-		mEditTitle=(EditText) findViewById(R.id.editTitle);
-		mEditTitle.addTextChangedListener(new TextWatcher() {
-			public void onTextChanged(CharSequence c, int start, int before, int count) {
-				
-				//mTitle.setText(mRecord.getmTitle());
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-
+		
+		mTitle = (Button) findViewById(R.id.Title);
+		
+		mTitle.setText(newName);
+		
+		mTitle.setOnClickListener(new View.OnClickListener() {
 			
-		}); 
+			@Override
+			public void onClick(View v) 
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(CaseActivity.this);
+				  final LayoutInflater inflater = getLayoutInflater();
+
+				  final View AlertView = inflater.inflate(R.layout.new_case_dialog, null);
+				  
+				  final EditText caseType = (EditText) AlertView.findViewById(R.id.eTextType);
+				  caseType.setVisibility(View.GONE);
+				  
+				  final EditText caseName = (EditText) AlertView.findViewById(R.id.eTextNote);
+		        	Cases tempCase = casesDao.queryBuilder().where(CasesDao.Properties.Id.eq(caseID)).unique();
+		        	caseName.setText(tempCase.getName());
+				  
+				  builder.setView(AlertView);
+				  AlertDialog ad = builder.create();
+				  ad.setTitle("Rename Case");
+				  ad.setButton(AlertDialog.BUTTON_POSITIVE, "Rename",
+						    new DialogInterface.OnClickListener() {
+						        public void onClick(DialogInterface dialog, int which) {
+						        	
+						        	Cases tempCase = casesDao.queryBuilder().where(CasesDao.Properties.Id.eq(caseID)).unique();
+						        	
+						        	String newName = caseName.getText().toString();
+						        	
+						        	Cases newCase = new Cases(caseID, newName, tempCase.getCasetype(), tempCase.getCaseDate(), tempCase.getDate());
+						        	
+						        	casesDao.insertOrReplace(newCase);
+						        	
+						        	mTitle.setText(newName);
+						        }
+						    });
+				  
+				  ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+						    new DialogInterface.OnClickListener() 
+				  			{
+						        public void onClick(DialogInterface dialog, int which) 
+						        {
+						        	
+						        }
+						    });
+				  
+						ad.show();
+			  }
+			
+		});
 		
 		/*
 		final LinearLayout editLayout = (LinearLayout) findViewById(R.id.editLayout);
@@ -259,9 +297,9 @@ public class CaseActivity extends FragmentActivity {
 	{
 		super.onResume();
 		
-		newHoursButton.setText("New");
+		newHoursButton.setVisibility(View.INVISIBLE);
 		newExpenseButton.setVisibility(View.INVISIBLE);
 		newMileageButton.setVisibility(View.INVISIBLE);
-		deleteButton.setText("Delete");
+		deleteButton.setVisibility(View.INVISIBLE);
 	}
 }

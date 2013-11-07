@@ -60,6 +60,8 @@ public class FileFrag extends ListFragment {
 		addNewMileage = (Button) getActivity().findViewById(R.id.buttonNewMileage);
 		deleteFile = (Button) getActivity().findViewById(R.id.buttonDelete);
 		
+		photoButton.setVisibility(View.VISIBLE);
+		deleteFile.setVisibility(View.VISIBLE);
 		addNewExpense.setVisibility(View.INVISIBLE);
 		addNewMileage.setVisibility(View.INVISIBLE);
 		
@@ -127,7 +129,8 @@ public class FileFrag extends ListFragment {
 		
 		addNewExpense.setVisibility(View.INVISIBLE);
 		addNewMileage.setVisibility(View.INVISIBLE);
-		
+		photoButton.setVisibility(View.VISIBLE);
+		deleteFile.setVisibility(View.VISIBLE);
 		photoButton.setText("New Photo");
 		deleteFile.setText("Delete Photo");
 	}
