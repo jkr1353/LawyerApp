@@ -19,7 +19,9 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 public class PhotoIntentActivity extends Activity {
@@ -39,6 +41,11 @@ public class PhotoIntentActivity extends Activity {
 	private Uri mVideoUri;
 
 	private String mCurrentPhotoPath;
+	private String bundlePhotoPath;
+	
+	private EditText bundleName;
+	
+	private Button saveButton;
 
 	private static final String JPEG_FILE_PREFIX = "IMG_";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
@@ -184,6 +191,11 @@ public class PhotoIntentActivity extends Activity {
 	private void handleBigCameraPhoto() throws IOException {
 
 		if (mCurrentPhotoPath != null) {
+			
+			//Log.i("CS499", mCurrentPhotoPath + "");
+			
+			bundlePhotoPath = mCurrentPhotoPath;
+			
 			setPic();
 			galleryAddPic();
 			mCurrentPhotoPath = null;
@@ -229,17 +241,56 @@ public class PhotoIntentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.photo);
 
+		final Context newCont = this;
+		
+		saveButton = (Button) findViewById(R.id.savePhoto);
+		
+		saveButton.setBackgroundColor(getResources().getColor(R.color.colorScheme2));
+		
 		mImageView = (ImageView) findViewById(R.id.imageView1);
 		////mVideoView = (VideoView) findViewById(R.id.videoView1);
 		mImageBitmap = null;
 		mVideoUri = null;
+		
+		bundleName = (EditText) findViewById(R.id.photoName);
 
+		bundlePhotoPath = "";
+		
 		Button picBtn = (Button) findViewById(R.id.btnIntend);
 		setBtnListenerOrDisable( 
 				picBtn, 
 				mTakePicOnClickListener,
 				MediaStore.ACTION_IMAGE_CAPTURE
 		);
+		
+		saveButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+				if (!bundlePhotoPath.isEmpty())
+				{
+					if (!bundleName.getText().toString().isEmpty())
+					{	
+						Intent returnIntent = new Intent();
+						 returnIntent.putExtra("name", bundleName.getText().toString());
+						 returnIntent.putExtra("path", bundlePhotoPath);
+						 setResult(RESULT_OK,returnIntent);     
+						 finish();
+					}
+					else
+					{
+						Toast.makeText(newCont, "You must name the Photo", Toast.LENGTH_SHORT).show();
+					}
+				}
+				else
+				{
+					Toast.makeText(newCont, "You must take a photo first", Toast.LENGTH_SHORT).show();
+				}
+				
+			}
+		});
 /*
 		Button picSBtn = (Button) findViewById(R.id.btnIntendS);
 		setBtnListenerOrDisable( 
@@ -359,6 +410,21 @@ public class PhotoIntentActivity extends Activity {
 			btn.setText( 
 				getText(R.string.cannot).toString() + " " + btn.getText());
 			btn.setClickable(false);
+		}
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		if (bundlePhotoPath.isEmpty())
+		{
+			saveButton.setVisibility(View.INVISIBLE);
+		}
+		else
+		{
+			saveButton.setVisibility(View.VISIBLE);
 		}
 	}
 

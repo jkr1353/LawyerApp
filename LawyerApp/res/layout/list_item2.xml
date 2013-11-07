@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_name"
-        android:text="Case Name"
          />
 
     <TextView
@@ -22,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_type"
-        android:text="Case Type"
          />
     </LinearLayout>
     
@@ -33,6 +31,6 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:textSize="@dimen/font_size_type"
-        android:text="Date" />
+         />
 
 </RelativeLayout>

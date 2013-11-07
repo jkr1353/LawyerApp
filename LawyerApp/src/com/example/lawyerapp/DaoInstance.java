@@ -13,6 +13,7 @@ public class DaoInstance extends Application
     private DaoSession daoSession;
     private CasesDao caseDao;
     private LogsDao logsDao;
+    private FilesDao filesDao;
     private SQLiteDatabase db;
     
     private DaoInstance(Context c) {
@@ -23,6 +24,7 @@ public class DaoInstance extends Application
         daoSession = daoMaster.newSession();
         caseDao = daoSession.getCasesDao();
         logsDao = daoSession.getLogsDao();
+        filesDao = daoSession.getFilesDao();
         
     }
 
@@ -74,6 +76,14 @@ public class DaoInstance extends Application
 
 	public void setDb(SQLiteDatabase db) {
 		this.db = db;
+	}
+
+	public FilesDao getFilesDao() {
+		return filesDao;
+	}
+
+	public void setFilesDao(FilesDao filesDao) {
+		this.filesDao = filesDao;
 	}
 
 }

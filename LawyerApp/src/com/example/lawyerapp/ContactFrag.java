@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.R.drawable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class ContactFrag extends Fragment {
@@ -21,6 +22,7 @@ public class ContactFrag extends Fragment {
 	private ArrayList<String> phoneContactList;
 	private ArrayList<String> phoneNumbers;
 	private ListView lv;
+	private Button newButton, addNewExpense, addNewMileage, deleteContact;
 	
 	@Override
 	public void onCreate(Bundle saved) {
@@ -34,6 +36,17 @@ public class ContactFrag extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle saved) {
 		View v = inflater.inflate(R.layout.contact_frag, parent,false); 
+		
+		newButton = (Button) getActivity().findViewById(R.id.buttonNewHours);
+		addNewExpense = (Button) getActivity().findViewById(R.id.buttonNewExpense);
+		addNewMileage = (Button) getActivity().findViewById(R.id.buttonNewMileage);
+		deleteContact = (Button) getActivity().findViewById(R.id.buttonDelete);
+		
+		addNewExpense.setVisibility(View.INVISIBLE);
+		addNewMileage.setVisibility(View.INVISIBLE);
+		
+		newButton.setText("New Contact");
+		deleteContact.setText("Delete Contact");
 		
 		lv=(ListView)v.findViewById(R.id.contact_listview);
 		

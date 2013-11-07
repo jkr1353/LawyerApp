@@ -9,9 +9,11 @@ import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
 import de.greenrobot.dao.internal.DaoConfig;
 
+import com.example.lawyerapp.Files;
 import com.example.lawyerapp.Logs;
 import com.example.lawyerapp.Cases;
 
+import com.example.lawyerapp.FilesDao;
 import com.example.lawyerapp.LogsDao;
 import com.example.lawyerapp.CasesDao;
 
@@ -24,9 +26,11 @@ import com.example.lawyerapp.CasesDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig filesDaoConfig;
     private final DaoConfig logsDaoConfig;
     private final DaoConfig casesDaoConfig;
 
+    private final FilesDao filesDao;
     private final LogsDao logsDao;
     private final CasesDao casesDao;
 
@@ -34,22 +38,32 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
+        filesDaoConfig = daoConfigMap.get(FilesDao.class).clone();
+        filesDaoConfig.initIdentityScope(type);
+
         logsDaoConfig = daoConfigMap.get(LogsDao.class).clone();
         logsDaoConfig.initIdentityScope(type);
 
         casesDaoConfig = daoConfigMap.get(CasesDao.class).clone();
         casesDaoConfig.initIdentityScope(type);
 
+        filesDao = new FilesDao(filesDaoConfig, this);
         logsDao = new LogsDao(logsDaoConfig, this);
         casesDao = new CasesDao(casesDaoConfig, this);
 
+        registerDao(Files.class, filesDao);
         registerDao(Logs.class, logsDao);
         registerDao(Cases.class, casesDao);
     }
     
     public void clear() {
+        filesDaoConfig.getIdentityScope().clear();
         logsDaoConfig.getIdentityScope().clear();
         casesDaoConfig.getIdentityScope().clear();
+    }
+
+    public FilesDao getFilesDao() {
+        return filesDao;
     }
 
     public LogsDao getLogsDao() {

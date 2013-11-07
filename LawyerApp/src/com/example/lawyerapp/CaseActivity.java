@@ -1,10 +1,9 @@
 package com.example.lawyerapp;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CaseActivity extends Activity {
+public class CaseActivity extends FragmentActivity {
 
     private TextView title;
     //private Record mRecord; 
@@ -116,7 +115,7 @@ public class CaseActivity extends Activity {
 		contactfrag = new ContactFrag();
 		filefrag = new FileFrag();
 		logfrag = new LogFrag();
-		final android.app.FragmentManager fm = getFragmentManager();
+		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 		
 		final int buttonColor, buttonSelected;
 		
@@ -139,7 +138,10 @@ public class CaseActivity extends Activity {
 				  
 					if (FragSelect==0)
 					{
-						android.app.FragmentTransaction fta = fm.beginTransaction();
+						FragmentTransaction fta = fm.beginTransaction();
+						Bundle bundle = new Bundle();
+						bundle.putLong("id", caseID);
+						filefrag.setArguments(bundle);
 						fta.add(R.id.tabfrag, filefrag);
 						fta.commit(); 
 						FragSelect=2;
@@ -149,7 +151,7 @@ public class CaseActivity extends Activity {
 					if (FragSelect != 2) {
 						if(FragSelect==1)
 						{
-							android.app.FragmentTransaction fta = fm.beginTransaction();
+							FragmentTransaction fta = fm.beginTransaction();
 							fta.remove(contactfrag).commit();
 						}
 						else  //3
@@ -158,6 +160,9 @@ public class CaseActivity extends Activity {
 							fta.remove(logfrag).commit();
 						}
 						FragmentTransaction fta = fm.beginTransaction();
+						Bundle bundle = new Bundle();
+						bundle.putLong("id", caseID);
+						filefrag.setArguments(bundle);
 						fta.add(R.id.tabfrag, filefrag);
 						fta.commit(); 
 						FragSelect=2;
